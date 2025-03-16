@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:viajanteapp/components/loader_component.dart';
 import 'package:viajanteapp/helpers/api_helper.dart';
 import 'package:viajanteapp/helpers/helpers.dart';
+import 'package:viajanteapp/themes/app_theme.dart';
 
 import '../../models/models.dart';
 
@@ -23,6 +24,11 @@ class _CustomersScreenState extends State<CustomersScreen> {
   bool _isFiltered = false;
   String _search = '';
   bool _isVisible = false;
+
+  String _cliente = '';
+  final String _clienteError = '';
+  final bool _clienteShowError = false;
+  final TextEditingController _clienteController = TextEditingController();
 
 //----------------------- initState -----------------------------
 
@@ -160,6 +166,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
         ),
         if (_isVisible)
           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             width: ancho * 0.8,
             height: 200,
             decoration: BoxDecoration(
@@ -178,14 +185,85 @@ class _CustomersScreenState extends State<CustomersScreen> {
               const SizedBox(
                 height: 10,
               ),
-              TextButton.icon(
-                onPressed: () {
-                  _isVisible = false;
-                  setState(() {});
+              TextField(
+                controller: _clienteController,
+                decoration: InputDecoration(
+                    fillColor: Colors.white,
+                    filled: true,
+                    hintText: 'Ingrese nombre del Cliente...',
+                    labelText: 'Cliente',
+                    errorText: _clienteShowError ? _clienteError : null,
+                    suffixIcon: const Icon(FontAwesomeIcons.person),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10))),
+                onChanged: (value) {
+                  _cliente = value;
                 },
-                icon: const Icon(FontAwesomeIcons.floppyDisk),
-                label: const Text('Guardar'),
-              )
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        minimumSize: const Size(100, 60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      onPressed: () {
+                        _isVisible = false;
+                        setState(() {});
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.ban,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text("Cancelar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18))
+                        ],
+                      )),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.primary,
+                        minimumSize: const Size(100, 60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      onPressed: () {
+                        _isVisible = false;
+                        setState(() {});
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            FontAwesomeIcons.floppyDisk,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text("Guardar",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18))
+                        ],
+                      )),
+                ],
+              ),
             ]),
           )
       ],
