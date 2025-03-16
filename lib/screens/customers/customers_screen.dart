@@ -26,9 +26,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
   bool _isVisible = false;
 
   String _cliente = '';
-  final String _clienteError = '';
-  final bool _clienteShowError = false;
-  final TextEditingController _clienteController = TextEditingController();
+  String _clienteError = '';
+  bool _clienteShowError = false;
+  TextEditingController _clienteController = TextEditingController();
 
 //----------------------- initState -----------------------------
 
@@ -168,7 +168,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             width: ancho * 0.8,
-            height: 200,
+            height: 220,
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 176, 234, 168),
               borderRadius: BorderRadius.circular(20),
@@ -232,7 +232,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
                                   TextStyle(color: Colors.white, fontSize: 18))
                         ],
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   ElevatedButton(
@@ -243,8 +243,15 @@ class _CustomersScreenState extends State<CustomersScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        if (!validateFields()) {
+                          setState(() {});
+                          return;
+                        }
+
+                        await _addRecord();
                         _isVisible = false;
+                        await _getCustomers();
                         setState(() {});
                       },
                       child: Row(
@@ -262,12 +269,82 @@ class _CustomersScreenState extends State<CustomersScreen> {
                                   TextStyle(color: Colors.white, fontSize: 18))
                         ],
                       )),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             ]),
           )
       ],
     );
+  }
+
+//--------------------- validateFields ----------------------------
+  bool validateFields() {
+    bool isValid = true;
+    if (_cliente == "") {
+      isValid = false;
+      _clienteShowError = true;
+      _clienteError = 'Debe completar Nombre del Cliente';
+
+      setState(() {});
+      return isValid;
+    } else if (_cliente.length > 50) {
+      isValid = false;
+      _clienteShowError = true;
+      _clienteError =
+          'No debe superar los 50 caracteres. Escribió ${_cliente.length}.';
+      setState(() {});
+      return isValid;
+    } else {
+      _clienteShowError = false;
+    }
+    setState(() {});
+    return isValid;
+  }
+
+//--------------------- _addRecord ----------------------------
+//-----------------------------------------------------------------
+
+  Future<void> _addRecord() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      showMyDialog(
+          'Error', "Verifica que estés conectado a Internet", 'Aceptar');
+    }
+
+    Map<String, dynamic> request = {
+      'Name': _cliente,
+    };
+
+    Response response =
+        await ApiHelper.post('/api/Customers/PostCustomer', request);
+
+    setState(() {
+      _showLoader = false;
+      _cliente = '';
+      _clienteController.text = '';
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      return;
+    }
   }
 
 //------------------------------ _showCustomersCount ------------------
@@ -358,17 +435,6 @@ class _CustomersScreenState extends State<CustomersScreen> {
                   ),
                   Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          FontAwesomeIcons.penToSquare,
-                          color: Colors.orange,
-                          size: 28,
-                        ),
-                        onPressed: () {
-                          _isVisible = true;
-                          setState(() {});
-                        },
-                      ),
                       IconButton(
                         icon: const Icon(
                           Icons.delete_forever_outlined,

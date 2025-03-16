@@ -95,4 +95,38 @@ class ApiHelper {
       );
     }
   }
+
+  //---------------------------------------------------------------------------
+  static Future<Response> getBills() async {
+    var url = Uri.parse('${Constants.apiUrl}/api/Bills/GetBills');
+
+    try {
+      var response = await http.post(
+        url,
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+      );
+      var body = response.body;
+
+      if (response.statusCode >= 400) {
+        return Response(isSuccess: false, message: body);
+      }
+
+      List<Bill> list = [];
+      var decodedJson = jsonDecode(body);
+      if (decodedJson != null) {
+        for (var item in decodedJson) {
+          list.add(Bill.fromJson(item));
+        }
+      }
+      return Response(isSuccess: true, result: list);
+    } catch (e) {
+      return Response(
+        isSuccess: false,
+        message: e.toString(),
+      );
+    }
+  }
 }
