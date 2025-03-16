@@ -41,6 +41,7 @@ dependencies:
   adaptive_dialog: ^1.1.0         # Para cuadros de diálogo
   http: ^0.13.3                   # Para consumir APIs 
   shared_preferences: ^2.0.8      # Para el rememberme
+  font_awesome_flutter: ^10.1.0
 
 
 flutter_icons:

@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+
+class BillsScreen extends StatelessWidget {
+  const BillsScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('BillsScreen'),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: Text('BillsScreen'),
+      ),
+    );
+  }
+}

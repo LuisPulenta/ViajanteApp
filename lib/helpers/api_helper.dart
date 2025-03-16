@@ -61,4 +61,38 @@ class ApiHelper {
 
     return Response(isSuccess: true);
   }
+
+  //---------------------------------------------------------------------------
+  static Future<Response> getCustomers() async {
+    var url = Uri.parse('${Constants.apiUrl}/api/Customers/GetCustomers');
+
+    try {
+      var response = await http.post(
+        url,
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+      );
+      var body = response.body;
+
+      if (response.statusCode >= 400) {
+        return Response(isSuccess: false, message: body);
+      }
+
+      List<Customer> list = [];
+      var decodedJson = jsonDecode(body);
+      if (decodedJson != null) {
+        for (var item in decodedJson) {
+          list.add(Customer.fromJson(item));
+        }
+      }
+      return Response(isSuccess: true, result: list);
+    } catch (e) {
+      return Response(
+        isSuccess: false,
+        message: e.toString(),
+      );
+    }
+  }
 }

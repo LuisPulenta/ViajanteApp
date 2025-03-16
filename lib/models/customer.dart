@@ -1,13 +1,13 @@
-class Consumer {
+class Customer {
   int id = 0;
   String name = '';
 
-  Consumer({
+  Customer({
     required this.id,
     required this.name,
   });
 
-  Consumer.fromJson(Map<String, dynamic> json) {
+  Customer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
