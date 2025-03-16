@@ -22,6 +22,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
+  bool _isVisible = false;
 
 //----------------------- initState -----------------------------
 
@@ -36,7 +37,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 101, 172, 93),
+      backgroundColor: const Color.fromARGB(255, 101, 172, 93),
       appBar: AppBar(
         title: const Text('Clientes'),
         centerTitle: true,
@@ -54,7 +55,10 @@ class _CustomersScreenState extends State<CustomersScreen> {
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          _isVisible = true;
+          setState(() {});
+        },
         child: const Icon(FontAwesomeIcons.plus),
       ),
     );
@@ -142,12 +146,48 @@ class _CustomersScreenState extends State<CustomersScreen> {
 //---------------------------------------------------------------------
 
   Widget _getContent() {
-    return Column(
-      children: <Widget>[
-        _showCustomersCount(),
-        Expanded(
-          child: _customers.isEmpty ? _noContent() : _getListView(),
-        )
+    final ancho = MediaQuery.of(context).size.width;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Column(
+          children: <Widget>[
+            _showCustomersCount(),
+            Expanded(
+              child: _customers.isEmpty ? _noContent() : _getListView(),
+            )
+          ],
+        ),
+        if (_isVisible)
+          Container(
+            width: ancho * 0.8,
+            height: 200,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 176, 234, 168),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(children: [
+              const SizedBox(
+                height: 10,
+              ),
+              const Text("NUEVO CLIENTE",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(
+                height: 10,
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  _isVisible = false;
+                  setState(() {});
+                },
+                icon: const Icon(FontAwesomeIcons.floppyDisk),
+                label: const Text('Guardar'),
+              )
+            ]),
+          )
       ],
     );
   }
@@ -187,7 +227,8 @@ class _CustomersScreenState extends State<CustomersScreen> {
           _isFiltered
               ? 'No hay Clientes con ese criterio de búsqueda'
               : 'No hay Clientes registrados',
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -245,7 +286,10 @@ class _CustomersScreenState extends State<CustomersScreen> {
                           color: Colors.orange,
                           size: 28,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          _isVisible = true;
+                          setState(() {});
+                        },
                       ),
                       IconButton(
                         icon: const Icon(
@@ -253,7 +297,9 @@ class _CustomersScreenState extends State<CustomersScreen> {
                           color: Colors.red,
                           size: 34,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          await _deleteCustomer(e);
+                        },
                       ),
                     ],
                   ),
@@ -266,9 +312,46 @@ class _CustomersScreenState extends State<CustomersScreen> {
     );
   }
 
-//---------------------------------------------------------------
+//-------------------- _deleteCustomer -------------------------
+
+  _deleteCustomer(Customer e) async {
+    await showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            title: const Text(''),
+            content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              Text('¿Está seguro de borrar el Cliente ${e.name}?'),
+              const SizedBox(
+                height: 10,
+              ),
+            ]),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('NO')),
+              TextButton(
+                  onPressed: () async {
+                    await ApiHelper.delete('/api/Customers/', e.id.toString())
+                        .then((value) {
+                      Navigator.of(context).pop();
+                    });
+                    _getCustomers();
+                    setState(() {});
+                  },
+                  child: const Text('SI')),
+            ],
+          );
+        });
+  }
+
 //----------------------- _getCustomers -------------------------
-//---------------------------------------------------------------
 
   Future<void> _getCustomers() async {
     setState(() {
