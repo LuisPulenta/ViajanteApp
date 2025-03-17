@@ -6,6 +6,7 @@ import 'package:viajanteapp/components/loader_component.dart';
 import 'package:viajanteapp/helpers/api_helper.dart';
 import 'package:viajanteapp/helpers/helpers.dart';
 import 'package:viajanteapp/models/models.dart';
+import 'package:viajanteapp/screens/screens.dart';
 
 class BillsScreen extends StatefulWidget {
   const BillsScreen({Key? key}) : super(key: key);
@@ -53,7 +54,29 @@ class _BillsScreenState extends State<BillsScreen> {
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BillScreen(
+                bill: Bill(
+                    id: 0,
+                    customer: '',
+                    type: '',
+                    number: '',
+                    createDate: '',
+                    billDate: '',
+                    amount: 0,
+                    photo: '',
+                    chargeDate: '',
+                    charge: false,
+                    deliverDate: '',
+                    deliver: false,
+                    photoFullPath: ''),
+              ),
+            ),
+          );
+        },
         child: const Icon(FontAwesomeIcons.plus),
       ),
     );

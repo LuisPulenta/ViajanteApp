@@ -7,9 +7,9 @@ class Bill {
   String billDate = '';
   double amount = 0;
   String photo = '';
-  String chargeDate = '';
+  String? chargeDate = '';
   bool charge = false;
-  String deliverDate = '';
+  String? deliverDate = '';
   bool deliver = false;
   String photoFullPath = '';
 
@@ -38,9 +38,9 @@ class Bill {
     billDate = json['billDate'];
     amount = json['amount'];
     photo = json['photo'];
-    chargeDate = json['chargeDate'];
+    chargeDate = json['chargeDate'] ?? '';
     charge = json['charge'];
-    deliverDate = json['deliverDate'];
+    deliverDate = json['deliverDate'] ?? '';
     deliver = json['deliver'];
     photoFullPath = json['photoFullPath'];
   }
@@ -55,9 +55,9 @@ class Bill {
     data['billDate'] = billDate;
     data['amount'] = amount;
     data['photo'] = photo;
-    data['chargeDate'] = chargeDate;
+    data['chargeDate'] = chargeDate ?? '';
     data['charge'] = charge;
-    data['deliverDate'] = deliverDate;
+    data['deliverDate'] = deliverDate ?? '';
     data['deliver'] = deliver;
     data['photoFullPath'] = photoFullPath;
 
