@@ -5,9 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:viajanteapp/components/loader_component.dart';
 import 'package:viajanteapp/helpers/api_helper.dart';
 import 'package:viajanteapp/helpers/helpers.dart';
-import 'package:viajanteapp/themes/app_theme.dart';
-
-import '../../models/models.dart';
+import 'package:viajanteapp/models/models.dart';
 
 class BillsScreen extends StatefulWidget {
   const BillsScreen({Key? key}) : super(key: key);

@@ -1,6 +1,8 @@
 class Bill {
   int id = 0;
   String customer = '';
+  String type = '';
+  String number = '';
   String createDate = '';
   String billDate = '';
   double amount = 0;
@@ -14,6 +16,8 @@ class Bill {
   Bill({
     required this.id,
     required this.customer,
+    required this.type,
+    required this.number,
     required this.createDate,
     required this.billDate,
     required this.amount,
@@ -28,6 +32,8 @@ class Bill {
   Bill.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     customer = json['customer'];
+    type = json['type'];
+    number = json['number'];
     createDate = json['createDate'];
     billDate = json['billDate'];
     amount = json['amount'];
@@ -43,6 +49,8 @@ class Bill {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['customer'] = customer;
+    data['type'] = type;
+    data['number'] = number;
     data['createDate'] = createDate;
     data['billDate'] = billDate;
     data['amount'] = amount;

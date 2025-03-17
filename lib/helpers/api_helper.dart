@@ -98,10 +98,10 @@ class ApiHelper {
 
   //---------------------------------------------------------------------------
   static Future<Response> getBills() async {
-    var url = Uri.parse('${Constants.apiUrl}/api/Bills/GetBills');
+    var url = Uri.parse('${Constants.apiUrl}/api/Bills');
 
     try {
-      var response = await http.post(
+      var response = await http.get(
         url,
         headers: {
           'content-type': 'application/json',
