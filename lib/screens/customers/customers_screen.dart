@@ -3,7 +3,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:viajanteapp/components/loader_component.dart';
-import 'package:viajanteapp/helpers/api_helper.dart';
 import 'package:viajanteapp/helpers/helpers.dart';
 import 'package:viajanteapp/themes/app_theme.dart';
 
@@ -28,7 +27,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
   String _cliente = '';
   String _clienteError = '';
   bool _clienteShowError = false;
-  TextEditingController _clienteController = TextEditingController();
+  final TextEditingController _clienteController = TextEditingController();
 
 //----------------------- initState -----------------------------
 

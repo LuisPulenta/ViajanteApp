@@ -324,7 +324,7 @@ class _BillScreenState extends State<BillScreen> {
                     child: const Icon(
                       Icons.photo_camera,
                       size: 40,
-                      color: Colors.blue,
+                      color: AppTheme.primary,
                     ),
                   ),
                 ),

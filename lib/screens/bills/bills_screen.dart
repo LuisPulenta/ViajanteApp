@@ -2,11 +2,12 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:viajanteapp/components/loader_component.dart';
-import 'package:viajanteapp/helpers/api_helper.dart';
 import 'package:viajanteapp/helpers/helpers.dart';
 import 'package:viajanteapp/models/models.dart';
 import 'package:viajanteapp/screens/screens.dart';
+import 'package:viajanteapp/themes/app_theme.dart';
 
 class BillsScreen extends StatefulWidget {
   const BillsScreen({Key? key}) : super(key: key);
@@ -164,7 +165,6 @@ class _BillsScreenState extends State<BillsScreen> {
 //---------------------------------------------------------------------
 
   Widget _getContent() {
-    final ancho = MediaQuery.of(context).size.width;
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -254,11 +254,89 @@ class _BillsScreenState extends State<BillsScreen> {
                                       flex: 3,
                                       child: Text(e.customer,
                                           style: const TextStyle(
-                                            fontSize: 26,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text("Fecha: ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Expanded(
+                                      child: Text(
+                                          DateFormat('dd/MM/yyyy').format(
+                                              DateTime.parse(e.billDate)),
+                                          style: const TextStyle(
+                                            fontSize: 16,
                                           )),
                                     ),
                                   ],
                                 ),
+                                Row(
+                                  children: [
+                                    Text("${e.type} N°: ",
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Expanded(
+                                      child: Text(e.number,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    const Text("Monto: ",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    Expanded(
+                                      child: Text(
+                                          NumberFormat.currency(symbol: '\$')
+                                              .format(e.amount),
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    e.deliver
+                                        ? Text(
+                                            "ENTREGADO - ${DateFormat('dd/MM/yyyy').format(DateTime.parse(e.deliverDate!))}",
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppTheme.primary))
+                                        : const Text("NO ENTREGADO",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    e.charge
+                                        ? Text(
+                                            "COBRADO - ${DateFormat('dd/MM/yyyy').format(DateTime.parse(e.chargeDate!))}",
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: AppTheme.primary))
+                                        : const Text("NO COBRADO",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red)),
+                                  ],
+                                )
                               ],
                             ),
                           ),
@@ -266,11 +344,21 @@ class _BillsScreenState extends State<BillsScreen> {
                       ),
                     ),
                   ),
-                  Row(
+                  Column(
                     children: [
                       IconButton(
                         icon: const Icon(
-                          Icons.delete_forever_outlined,
+                          FontAwesomeIcons.eye,
+                          color: AppTheme.primary,
+                          size: 34,
+                        ),
+                        onPressed: () async {
+                          await _deleteBill(e);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          FontAwesomeIcons.trashCan,
                           color: Colors.red,
                           size: 34,
                         ),

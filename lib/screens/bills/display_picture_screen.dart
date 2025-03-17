@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:viajanteapp/models/models.dart';
+import 'package:viajanteapp/themes/app_theme.dart';
 
 class DisplayPictureScreen extends StatefulWidget {
   final XFile image;
@@ -9,10 +10,10 @@ class DisplayPictureScreen extends StatefulWidget {
   const DisplayPictureScreen({Key? key, required this.image}) : super(key: key);
 
   @override
-  _DisplayPictureScreenState createState() => _DisplayPictureScreenState();
+  DisplayPictureScreenState createState() => DisplayPictureScreenState();
 }
 
-class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+class DisplayPictureScreenState extends State<DisplayPictureScreen> {
 //---------------------------------------------------------------
 //----------------------- Pantalla ------------------------------
 //---------------------------------------------------------------
@@ -36,9 +37,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                 children: <Widget>[
                   Expanded(
                     child: ElevatedButton(
-                      child: const Text('Usar Foto'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF120E43),
+                        backgroundColor: AppTheme.primary,
                         minimumSize: const Size(100, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -49,6 +49,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                             Response(isSuccess: true, result: widget.image);
                         Navigator.pop(context, response);
                       },
+                      child: const Text('Usar Foto',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                   const SizedBox(
@@ -56,9 +58,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                   ),
                   Expanded(
                     child: ElevatedButton(
-                      child: const Text('Volver a tomar'),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE03B8B),
+                        backgroundColor: const Color.fromARGB(255, 124, 15, 15),
                         minimumSize: const Size(100, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -67,6 +68,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
+                      child: const Text('Volver a tomar',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],
