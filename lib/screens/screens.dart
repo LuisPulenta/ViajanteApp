@@ -4,3 +4,4 @@ export 'package:viajanteapp/screens/bills/bill_screen.dart';
 export 'package:viajanteapp/screens/bills/bills_screen.dart';
 export 'package:viajanteapp/screens/bills/take_picture_screen.dart';
 export 'package:viajanteapp/screens/bills/display_picture_screen.dart';
+export 'package:viajanteapp/screens/bills/view_bill_screen.dart';

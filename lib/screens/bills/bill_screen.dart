@@ -456,6 +456,19 @@ class _BillScreenState extends State<BillScreen> {
     } else {
       _amountShowError = false;
     }
+
+    if (_photoChanged == false) {
+      isValid = false;
+      showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Debe sacar una foto a la Factura/Remito',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      setState(() {});
+      return isValid;
+    }
     setState(() {});
     return isValid;
   }

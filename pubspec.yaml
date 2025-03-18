@@ -47,6 +47,7 @@ dependencies:
   camera: ^0.9.4                  # Para acceder a la cámara
   path_provider: ^2.0.5           # Para acceder a la cámara
   path: ^1.8.0                    # Para acceder a la cámara
+  cached_network_image: ^3.1.0    # Para mejorar el rendimiento de imágenes
 
 
 flutter_icons:

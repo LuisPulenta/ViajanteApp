@@ -77,6 +77,7 @@ class _BillsScreenState extends State<BillsScreen> {
               ),
             ),
           );
+          _getBills();
         },
         child: const Icon(FontAwesomeIcons.plus),
       ),
@@ -353,7 +354,7 @@ class _BillsScreenState extends State<BillsScreen> {
                           size: 34,
                         ),
                         onPressed: () async {
-                          await _deleteBill(e);
+                          await _viewBill(e);
                         },
                       ),
                       IconButton(
@@ -375,6 +376,19 @@ class _BillsScreenState extends State<BillsScreen> {
         }).toList(),
       ),
     );
+  }
+
+//----------------------- _viewBill -----------------------
+  Future<void> _viewBill(Bill bill) async {
+    String? result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ViewBillScreen(
+                  bill: bill,
+                )));
+
+    _getBills();
+    setState(() {});
   }
 
 //-------------------- _deleteBill -------------------------
@@ -403,10 +417,8 @@ class _BillsScreenState extends State<BillsScreen> {
                   child: const Text('NO')),
               TextButton(
                   onPressed: () async {
-                    await ApiHelper.delete('/api/Bills/', e.id.toString())
-                        .then((value) {
-                      Navigator.of(context).pop();
-                    });
+                    Navigator.of(context).pop();
+                    await ApiHelper.delete('/api/Bills/', e.id.toString());
                     _getBills();
                     setState(() {});
                   },
@@ -459,20 +471,4 @@ class _BillsScreenState extends State<BillsScreen> {
       });
     });
   }
-
-//---------------------------------------------------------------
-//----------------------- _goInfoCustomer -----------------------
-//---------------------------------------------------------------
-
-  // void _goInfoCustomer(Customer customer) async {
-  //   String? result = await Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) => CustomerInfoScreen(
-  //               customer: customer,
-  //               )));
-
-  //     _getCustomers();
-  //     setState(() {});
-  // }
 }
