@@ -26,7 +26,6 @@ class BillScreen extends StatefulWidget {
 
 class _BillScreenState extends State<BillScreen> {
   //----------------------- Variables --------------------------------
-
   bool _showLoader = false;
   List<Customer> _customers = [];
   bool _photoChanged = false;
@@ -49,9 +48,7 @@ class _BillScreenState extends State<BillScreen> {
   bool _amountShowError = false;
   TextEditingController _amountController = TextEditingController();
 
-  //----------------------- initState -----------------------------
-//---------------------------------------------------------------
-
+//----------------------- initState -----------------------------
   @override
   void initState() {
     super.initState();
@@ -63,7 +60,7 @@ class _BillScreenState extends State<BillScreen> {
     await _getCostumers();
   }
 
-  //--------------------- _getCostumers ------------------------
+//--------------------- _getCostumers ------------------------
   Future<void> _getCostumers() async {
     var connectivityResult = await Connectivity().checkConnectivity();
 

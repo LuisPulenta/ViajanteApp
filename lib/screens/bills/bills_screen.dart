@@ -463,11 +463,11 @@ class _BillsScreenState extends State<BillsScreen> {
     setState(() {
       _showLoader = false;
       _bills = response.result;
-      _bills.sort((a, b) {
-        return a.customer
+      _bills.sort((b, a) {
+        return a.createDate
             .toString()
             .toLowerCase()
-            .compareTo(b.customer.toString().toLowerCase());
+            .compareTo(b.createDate.toString().toLowerCase());
       });
     });
   }
