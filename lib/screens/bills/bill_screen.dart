@@ -486,11 +486,12 @@ class _BillScreenState extends State<BillScreen> {
           'Error', "Verifica que estés conectado a Internet", 'Aceptar');
     }
 
-    XFile smallImage = await resizeImage(_image);
+    //XFile smallImage = await resizeImage(_image);
 
     String base64image = '';
     if (_photoChanged) {
-      List<int> imageBytes = await smallImage.readAsBytes();
+      //List<int> imageBytes = await smallImage.readAsBytes();
+      List<int> imageBytes = await _image.readAsBytes();
       base64image = base64Encode(imageBytes);
     }
 
