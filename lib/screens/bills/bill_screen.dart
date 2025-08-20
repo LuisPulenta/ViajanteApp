@@ -454,6 +454,18 @@ class _BillScreenState extends State<BillScreen> {
       _amountShowError = false;
     }
 
+    final regex = RegExp(r'^\d*\.?\d{0,1}$'); // 0 o 1 decimal
+    if (!regex.hasMatch(_amount)) {
+      isValid = false;
+      _amountShowError = true;
+      _amountError = 'Solo se permite un punto decimal';
+
+      setState(() {});
+      return isValid;
+    } else {
+      _amountShowError = false;
+    }
+
     if (_photoChanged == false) {
       isValid = false;
       showAlertDialog(
